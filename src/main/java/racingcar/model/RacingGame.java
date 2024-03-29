@@ -1,6 +1,7 @@
 package racingcar.model;
 
 import racingcar.generator.NumberGenerator;
+import racingcar.generator.RandomNumberGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,17 +9,15 @@ import java.util.stream.Collectors;
 
 public class RacingGame {
     private final List<RacingCar> racingCars;
-    private int totalRounds;
+    private final int totalRounds;
     private int currentRound = 0;
 
     public RacingGame(List<String> carNames, int totalRounds) {
-        this.totalRounds = totalRounds;
-        this.racingCars = carNames.stream()
-                .map(RacingCar::new)
-                .collect(Collectors.toList());
+        this(carNames, totalRounds, new RandomNumberGenerator());
     }
 
     public RacingGame(List<String> carNames, int totalRounds, NumberGenerator numberGenerator) {
+        this.totalRounds = totalRounds;
         this.racingCars = carNames.stream()
                 .map(name -> new RacingCar(name, numberGenerator))
                 .collect(Collectors.toList());
