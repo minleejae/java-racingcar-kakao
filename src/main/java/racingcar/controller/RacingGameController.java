@@ -14,13 +14,11 @@ public class RacingGameController {
     }
 
     public void playGame() {
-        int trial = requestTrial();
-
         RacingGame racingGame = initializeRacingGame();
 
         racingGameView.startGameRound();
 
-        for (int i = 0; i < trial; i++) {
+        while (racingGame.isGameNotOver()) {
             racingGame.performRacingRound();
             racingGameView.displayRacingCarStatus(racingGame.getRacingCars());
         }
@@ -47,7 +45,8 @@ public class RacingGameController {
     }
 
     private RacingGame initializeRacingGame() {
+        int trial = requestTrial();
         List<String> carNames = requestCarNames();
-        return new RacingGame(carNames);
+        return new RacingGame(carNames, trial);
     }
 }

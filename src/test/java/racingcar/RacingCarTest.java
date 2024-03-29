@@ -16,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class RacingCarTest {
 
+    private static final int ONE_ROUND = 1;
     private RacingCar racingCar;
     private RandomNumberGenerator randomNumberGenerator;
 
@@ -53,7 +54,7 @@ public class RacingCarTest {
     @Test
     void determineWinnerTest() {
         List<String> racingCarNames = Arrays.asList("car1", "car2", "car3");
-        RacingGame racingGame = new RacingGame(racingCarNames);
+        RacingGame racingGame = new RacingGame(racingCarNames, ONE_ROUND);
 
         racingGame.getRacingCars().get(0).getNumAndMove(9);
         racingGame.getRacingCars().get(1).getNumAndMove(2);
@@ -69,7 +70,7 @@ public class RacingCarTest {
     @Test
     public void testPerformRacingRound() {
         List<String> carNames = Arrays.asList("car1", "car2", "car3");
-        RacingGame racingGame = new RacingGame(carNames, new TestNumberGenerator(5));
+        RacingGame racingGame = new RacingGame(carNames, ONE_ROUND, new TestNumberGenerator(5));
 
         racingGame.performRacingRound();
 
