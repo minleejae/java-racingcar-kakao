@@ -18,6 +18,8 @@ public class RacingGameController {
 
         RacingGame racingGame = initializeRacingGame();
 
+        racingGameView.startGameRound();
+
         for (int i = 0; i < trial; i++) {
             racingGame.performRacingRound();
             racingGameView.displayRacingCarStatus(racingGame.getRacingCars());
@@ -46,7 +48,6 @@ public class RacingGameController {
 
     private RacingGame initializeRacingGame() {
         List<String> carNames = requestCarNames();
-        racingGameView.startGameRound();
         return new RacingGame(carNames);
     }
 }
