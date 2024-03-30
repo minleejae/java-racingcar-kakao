@@ -3,6 +3,7 @@ package racingcar.view;
 import racingcar.exception.InValidInputException;
 import racingcar.model.RacingCar;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
@@ -23,24 +24,27 @@ public class RacingGameView {
 
     public List<String> requestCarNames() {
         System.out.println("경주할 자동차 이름을 입력하세요(이름은 쉼표(,)를 기준으로 구분).");
-        List<String> carNames = List.of(sc.nextLine().split(","));
 
-        for (String carName : carNames) {
-            checkCarName(carName);
+        try {
+            List<String> carNames = Arrays.asList(sc.nextLine().split(","));
+            carNames.forEach(RacingGameView::checkCarName);
+            return carNames;
+        } catch (InValidInputException e) {
+            System.out.println(e.getMessage());
+            return requestCarNames();
         }
-
-        return carNames;
     }
 
     public int requestTrial() {
         System.out.println("시도할 회수는 몇회인가요?");
-        int numberOfTrials = Integer.parseInt(sc.nextLine());
+        String input = sc.nextLine();
 
-        if (numberOfTrials <= 0) {
-            throw new InValidInputException("[ERROR] 회수는 0보다 커야합니다.");
+        try {
+            return Integer.parseInt(input);
+        } catch (NumberFormatException e) {
+            System.out.println("[ERROR] 숫자를 입력해야 합니다.");
+            return requestTrial();
         }
-
-        return numberOfTrials;
     }
 
     public void displayRacingCarStatus(List<RacingCar> racingCarList) {

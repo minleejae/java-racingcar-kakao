@@ -1,6 +1,5 @@
 package racingcar.controller;
 
-import racingcar.exception.InValidInputException;
 import racingcar.model.RacingGame;
 import racingcar.view.RacingGameView;
 
@@ -26,27 +25,9 @@ public class RacingGameController {
         racingGameView.displayWinners(racingGame.findWinners());
     }
 
-    private int requestTrial() {
-        try {
-            return racingGameView.requestTrial();
-        } catch (InValidInputException e) {
-            System.out.println(e.getMessage());
-            return requestTrial();
-        }
-    }
-
-    private List<String> requestCarNames() {
-        try {
-            return racingGameView.requestCarNames();
-        } catch (InValidInputException e) {
-            System.out.println(e.getMessage());
-            return requestCarNames();
-        }
-    }
-
     private RacingGame initializeRacingGame() {
-        int trial = requestTrial();
-        List<String> carNames = requestCarNames();
+        int trial = racingGameView.requestTrial();
+        List<String> carNames = racingGameView.requestCarNames();
         return new RacingGame(carNames, trial);
     }
 }
