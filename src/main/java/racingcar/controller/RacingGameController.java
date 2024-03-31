@@ -26,8 +26,13 @@ public class RacingGameController {
     }
 
     private RacingGame initializeRacingGame() {
-        int trial = racingGameView.requestTrial();
-        List<String> carNames = racingGameView.requestCarNames();
-        return new RacingGame(carNames, trial);
+        try {
+            int trial = racingGameView.requestTrial();
+            List<String> carNames = racingGameView.requestCarNames();
+            return new RacingGame(carNames, trial);
+        } catch (IllegalArgumentException e) {
+            racingGameView.displayError(e.getMessage());
+            return initializeRacingGame();
+        }
     }
 }

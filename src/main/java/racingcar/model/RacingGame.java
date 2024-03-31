@@ -17,6 +17,10 @@ public class RacingGame {
     }
 
     public RacingGame(List<String> carNames, int totalRounds, NumberGenerator numberGenerator) {
+        validateCarNames(carNames);
+        validateTotalRounds(totalRounds);
+        validateNumberGenerator(numberGenerator);
+
         this.totalRounds = totalRounds;
         this.racingCars = carNames.stream()
                 .map(name -> new RacingCar(name, numberGenerator))
@@ -45,5 +49,26 @@ public class RacingGame {
 
     public boolean isGameNotOver() {
         return currentRound < totalRounds;
+    }
+
+    private void validateCarNames(List<String> carNames) {
+        if (carNames == null || carNames.isEmpty()) {
+            throw new IllegalArgumentException("[ERROR]차량 이름은 null이거나 비어 있으면 안 됩니다.");
+        }
+        if (carNames.stream().anyMatch(name -> name == null || name.trim().isEmpty())) {
+            throw new IllegalArgumentException("[ERROR]각 차량 이름은 null이거나 공백일 수 없습니다.");
+        }
+    }
+
+    private void validateTotalRounds(int totalRounds) {
+        if (totalRounds <= 0) {
+            throw new IllegalArgumentException("[ERROR]시도할 회수는 0보다 커야 합니다.");
+        }
+    }
+
+    private void validateNumberGenerator(NumberGenerator numberGenerator) {
+        if (numberGenerator == null) {
+            throw new IllegalArgumentException("[ERROR]NumberGenerator는 null일 수 없습니다.");
+        }
     }
 }

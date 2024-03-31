@@ -63,4 +63,8 @@ public class RacingGameView {
                 .collect(Collectors.joining(", "));
         System.out.println(winners + "가 최종 우승했습니다.");
     }
+
+    public void displayError(String errorMessage) {
+        System.out.println(errorMessage);
+    }
 }
