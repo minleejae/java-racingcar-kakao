@@ -23,8 +23,8 @@ public class RacingCar {
         this.name = name;
         this.numberGenerator = numberGenerator;
     }
-    
-    public void getNumAndMove(int num) {
+
+    private void getNumAndMove(int num) {
         if (isMove(num)) {
             this.moves++;
         }
@@ -35,7 +35,7 @@ public class RacingCar {
         getNumAndMove(num);
     }
 
-    public boolean isMove(int num) {
+    private boolean isMove(int num) {
         return num >= MIN_MOVE_THRESHOLD && num <= MAX_MOVE_THRESHOLD;
     }
 

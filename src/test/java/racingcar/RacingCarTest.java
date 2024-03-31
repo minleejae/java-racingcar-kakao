@@ -15,31 +15,40 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class RacingCarTest {
-
     private static final int ONE_ROUND = 1;
     private static final int IS_MOVED = 1;
+    private static final int NOT_MOVED = 0;
+    private static final int ONE_MOVED = 1;
+    private static final int TWO_MOVED = 2;
     private static final int WINNERS_NUMBER_FOR_WINNING_TEST = 2;
     private static final List<Integer> MOVES_FOR_WINNING_TEST = Arrays.asList(9, 2, 8);
     private static final List<Integer> MOVES_FOR_ROUND_TEST = Arrays.asList(4, 5, 6);
-    private RacingCar racingCar;
+
+    private static final List<Integer> NON_MOVES_TRIGGERING_NUMBERS = Arrays.asList(3, 10);
+    private static final List<Integer> MOVES_TRIGGERING_NUMBERS = Arrays.asList(4, 9);
     private RandomNumberGenerator randomNumberGenerator;
 
     @BeforeEach
     void setUp() {
-        racingCar = new RacingCar();
         randomNumberGenerator = new RandomNumberGenerator();
     }
 
-    @ParameterizedTest
-    @ValueSource(ints = {4, 5, 6, 7, 8, 9})
-    void moveTest(int number) {
-        assertTrue(racingCar.isMove(number));
+    @Test
+    void moveTest() {
+        RacingCar car = new RacingCar("car", new TestNumberGenerator(MOVES_TRIGGERING_NUMBERS));
+        car.move();
+        assertTrue(car.isAt(ONE_MOVED), "자동차가 한 번 움직인 후의 상태를 검증합니다.");
+        car.move();
+        assertTrue(car.isAt(TWO_MOVED), "자동차가 두 번 움직인 후의 상태를 검증합니다.");
     }
 
-    @ParameterizedTest
-    @ValueSource(ints = {0, 1, 2, 3})
-    void stopTest(int number) {
-        assertFalse(racingCar.isMove(number));
+    @Test
+    void stopTest() {
+        RacingCar car = new RacingCar("car", new TestNumberGenerator(NON_MOVES_TRIGGERING_NUMBERS));
+        car.move();
+        assertTrue(car.isAt(NOT_MOVED), "자동차가 움직이지 않은 후의 상태를 검증합니다.");
+        car.move();
+        assertTrue(car.isAt(NOT_MOVED), "자동차가 다시 한 번 움직이지 않은 후의 상태를 검증합니다.");
     }
 
     @ParameterizedTest
