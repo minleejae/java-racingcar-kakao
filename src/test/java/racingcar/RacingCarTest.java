@@ -17,6 +17,10 @@ import static org.junit.jupiter.api.Assertions.*;
 public class RacingCarTest {
 
     private static final int ONE_ROUND = 1;
+    private static final int IS_MOVED = 1;
+    private static final int WINNERS_NUMBER_FOR_WINNING_TEST = 2;
+    private static final List<Integer> MOVES_FOR_WINNING_TEST = Arrays.asList(9, 2, 8);
+    private static final List<Integer> MOVES_FOR_ROUND_TEST = Arrays.asList(4, 5, 6);
     private RacingCar racingCar;
     private RandomNumberGenerator randomNumberGenerator;
 
@@ -53,16 +57,14 @@ public class RacingCarTest {
 
     @Test
     void determineWinnerTest() {
-        List<String> racingCarNames = Arrays.asList("car1", "car2", "car3");
-        RacingGame racingGame = new RacingGame(racingCarNames, ONE_ROUND);
+        List<String> carNames = Arrays.asList("car1", "car2", "car3");
+        RacingGame racingGame = new RacingGame(carNames, ONE_ROUND, new TestNumberGenerator(MOVES_FOR_WINNING_TEST));
 
-        racingGame.getRacingCars().get(0).getNumAndMove(9);
-        racingGame.getRacingCars().get(1).getNumAndMove(2);
-        racingGame.getRacingCars().get(2).getNumAndMove(8);
+        racingGame.performRacingRound();
 
         List<RacingCar> winners = racingGame.findWinners();
 
-        assertEquals(2, winners.size());
+        assertEquals(WINNERS_NUMBER_FOR_WINNING_TEST, winners.size());
         assertEquals("car1", winners.get(0).getName());
         assertEquals("car3", winners.get(1).getName());
     }
@@ -70,13 +72,13 @@ public class RacingCarTest {
     @Test
     public void testPerformRacingRound() {
         List<String> carNames = Arrays.asList("car1", "car2", "car3");
-        RacingGame racingGame = new RacingGame(carNames, ONE_ROUND, new TestNumberGenerator(5));
+        RacingGame racingGame = new RacingGame(carNames, ONE_ROUND, new TestNumberGenerator(MOVES_FOR_ROUND_TEST));
 
         racingGame.performRacingRound();
 
         List<RacingCar> racingCars = racingGame.getRacingCars();
         for (RacingCar car : racingCars) {
-            assertEquals(1, car.getMoves());
+            assertEquals(IS_MOVED, car.getMoves());
         }
     }
 }
